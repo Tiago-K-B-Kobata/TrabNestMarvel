@@ -13,6 +13,8 @@ const series_service_1 = require("./series.service");
 const axios_1 = require("@nestjs/axios");
 const mongoose_1 = require("@nestjs/mongoose");
 const series_schema_1 = require("./schemas/series.schema");
+const personagem_schema_1 = require("../personagem/schema/personagem.schema");
+const personagem_module_1 = require("../personagem/personagem.module");
 let SeriesModule = class SeriesModule {
 };
 exports.SeriesModule = SeriesModule;
@@ -21,8 +23,9 @@ exports.SeriesModule = SeriesModule = __decorate([
         controllers: [series_controller_1.SeriesController],
         providers: [series_service_1.SeriesService],
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: series_schema_1.Series.name, schema: series_schema_1.SeriesSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: series_schema_1.Series.name, schema: series_schema_1.SeriesSchema }, { name: personagem_schema_1.Personagem.name, schema: personagem_schema_1.PersonagemSchema }]),
             axios_1.HttpModule,
+            personagem_module_1.PersonagemModule,
         ],
     })
 ], SeriesModule);

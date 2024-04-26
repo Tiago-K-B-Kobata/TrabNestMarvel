@@ -12,72 +12,66 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SeriesController = void 0;
+exports.PersonagemController = void 0;
 const common_1 = require("@nestjs/common");
-const series_service_1 = require("./series.service");
-let SeriesController = class SeriesController {
-    constructor(seriesService) {
-        this.seriesService = seriesService;
+const personagem_service_1 = require("./personagem.service");
+const create_personagem_dto_1 = require("./dto/create-personagem.dto");
+const update_personagem_dto_1 = require("./dto/update-personagem.dto");
+let PersonagemController = class PersonagemController {
+    constructor(personagemService) {
+        this.personagemService = personagemService;
     }
-    create() {
-        return this.seriesService.getSeriesData();
+    create(createPersonagemDto) {
+        return this.personagemService.create(createPersonagemDto);
     }
     findAll() {
-        return this.seriesService.findAll();
+        return this.personagemService.findAll();
     }
-    findComics() {
-        return this.seriesService.findAllComics();
+    findOne(id) {
     }
-    findCreators() {
-        return this.seriesService.findAllCreators();
+    update(id, updatePersonagemDto) {
     }
-    findCharacters() {
-        return this.seriesService.findAllCharacters();
-    }
-    findCharacter(id) {
-        return this.seriesService.findCharacterById(id);
+    remove(id) {
     }
 };
-exports.SeriesController = SeriesController;
+exports.PersonagemController = PersonagemController;
 __decorate([
     (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [create_personagem_dto_1.CreatePersonagemDto]),
     __metadata("design:returntype", void 0)
-], SeriesController.prototype, "create", null);
+], PersonagemController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], SeriesController.prototype, "findAll", null);
+], PersonagemController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)('comics'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], SeriesController.prototype, "findComics", null);
-__decorate([
-    (0, common_1.Get)('creators'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], SeriesController.prototype, "findCreators", null);
-__decorate([
-    (0, common_1.Get)('characters'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], SeriesController.prototype, "findCharacters", null);
-__decorate([
-    (0, common_1.Get)('characters/:id'),
+    (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], SeriesController.prototype, "findCharacter", null);
-exports.SeriesController = SeriesController = __decorate([
-    (0, common_1.Controller)('series'),
-    __metadata("design:paramtypes", [series_service_1.SeriesService])
-], SeriesController);
-//# sourceMappingURL=series.controller.js.map
+], PersonagemController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_personagem_dto_1.UpdatePersonagemDto]),
+    __metadata("design:returntype", void 0)
+], PersonagemController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], PersonagemController.prototype, "remove", null);
+exports.PersonagemController = PersonagemController = __decorate([
+    (0, common_1.Controller)('personagem'),
+    __metadata("design:paramtypes", [personagem_service_1.PersonagemService])
+], PersonagemController);
+//# sourceMappingURL=personagem.controller.js.map

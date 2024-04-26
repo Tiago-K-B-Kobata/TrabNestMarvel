@@ -27,7 +27,7 @@ import { SeriesService } from './series.service';
 export declare class SeriesController {
     private readonly seriesService;
     constructor(seriesService: SeriesService);
-    create(): Promise<void>;
+    create(): Promise<string>;
     findAll(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/series.schema").Series> & import("./schemas/series.schema").Series & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
@@ -37,7 +37,12 @@ export declare class SeriesController {
     findCreators(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/series.schema").Series> & import("./schemas/series.schema").Series & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findCharacters(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/series.schema").Series> & import("./schemas/series.schema").Series & {
+    findCharacters(): Promise<(import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
+    findCharacter(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+        _id: import("mongoose").Types.ObjectId;
+    }, import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+        _id: import("mongoose").Types.ObjectId;
+    }, {}, import("../personagem/schema/personagem.schema").Personagem, "findOne">;
 }

@@ -4,9 +4,10 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SeriesModule } from './series/series.module';
+import { PersonagemModule } from './personagem/personagem.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://0.0.0.0/series-project'), AuthModule, UsersModule, SeriesModule],
+  imports: [MongooseModule.forRoot('mongodb://0.0.0.0/series-project'), AuthModule, UsersModule, SeriesModule, PersonagemModule],
   controllers: [],
   providers: [],
 })

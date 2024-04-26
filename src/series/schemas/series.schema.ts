@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Personagem } from 'src/personagem/schema/personagem.schema';
 
 export type SeriesDocument = HydratedDocument<Series>;
 
@@ -20,11 +21,8 @@ export class Series {
         cargo: string;
     }[];
 
-    @Prop({ required: true })
-    personagens: {
-        nome: string;
-        img: string;
-    }[];
+    @Prop({ required: true, type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Personagem' }] })
+    personagens: Personagem[];
 
     @Prop({ required: true })
     comics: string[];

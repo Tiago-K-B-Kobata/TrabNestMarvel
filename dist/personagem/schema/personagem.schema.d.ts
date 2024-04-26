@@ -22,22 +22,15 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import mongoose, { HydratedDocument } from 'mongoose';
-import { Personagem } from 'src/personagem/schema/personagem.schema';
-export type SeriesDocument = HydratedDocument<Series>;
-export declare class Series {
-    titulo: string;
-    startYear: string;
-    endYear: string;
-    criadores: {
-        nome: string;
-        cargo: string;
-    }[];
-    personagens: Personagem[];
-    comics: string[];
+import { HydratedDocument } from "mongoose";
+export type PersonagemDocument = HydratedDocument<Personagem>;
+export declare class Personagem {
+    nome: string;
+    img: string;
+    description: string;
 }
-export declare const SeriesSchema: mongoose.Schema<Series, mongoose.Model<Series, any, any, any, mongoose.Document<unknown, any, Series> & Series & {
-    _id: mongoose.Types.ObjectId;
-}, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, Series, mongoose.Document<unknown, {}, mongoose.FlatRecord<Series>> & mongoose.FlatRecord<Series> & {
-    _id: mongoose.Types.ObjectId;
+export declare const PersonagemSchema: import("mongoose").Schema<Personagem, import("mongoose").Model<Personagem, any, any, any, import("mongoose").Document<unknown, any, Personagem> & Personagem & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Personagem, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<Personagem>> & import("mongoose").FlatRecord<Personagem> & {
+    _id: import("mongoose").Types.ObjectId;
 }>;

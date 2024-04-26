@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { SeriesService } from './series.service';
 
 @Controller('series')
@@ -28,6 +28,11 @@ export class SeriesController {
     @Get('characters')
     findCharacters() {
         return this.seriesService.findAllCharacters();
+    }
+
+    @Get('characters/:id')
+    findCharacter(@Param('id') id: string) {
+        return this.seriesService.findCharacterById(id);
     }
 
 }

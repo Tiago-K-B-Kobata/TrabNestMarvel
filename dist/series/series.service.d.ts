@@ -25,11 +25,17 @@
 import { HttpService } from '@nestjs/axios';
 import { Series } from './schemas/series.schema';
 import { Model } from 'mongoose';
+import { PersonagemService } from 'src/personagem/personagem.service';
 export declare class SeriesService {
     private seriesModel;
-    constructor(seriesModel: Model<Series>);
+    private readonly personagemService;
+    constructor(seriesModel: Model<Series>, personagemService: PersonagemService);
     httpService: HttpService;
-    getSeriesData(): Promise<void>;
+    getCharacterData(e: any): Promise<{
+        image: string;
+        description: any;
+    }>;
+    getSeriesData(): Promise<string>;
     findAll(): Promise<(import("mongoose").Document<unknown, {}, Series> & Series & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
@@ -39,8 +45,12 @@ export declare class SeriesService {
     findAllCreators(): Promise<(import("mongoose").Document<unknown, {}, Series> & Series & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findAllCharacters(): Promise<(import("mongoose").Document<unknown, {}, Series> & Series & {
+    findAllCharacters(): Promise<(import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    getCharacterImage(e: any): Promise<string>;
+    findCharacterById(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+        _id: import("mongoose").Types.ObjectId;
+    }, import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+        _id: import("mongoose").Types.ObjectId;
+    }, {}, import("../personagem/schema/personagem.schema").Personagem, "findOne">;
 }

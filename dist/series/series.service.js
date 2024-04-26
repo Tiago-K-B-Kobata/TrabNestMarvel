@@ -20,47 +20,68 @@ const constants_1 = require("../auth/constants");
 const series_schema_1 = require("./schemas/series.schema");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
+const personagem_service_1 = require("../personagem/personagem.service");
 let SeriesService = class SeriesService {
-    constructor(seriesModel) {
+    constructor(seriesModel, personagemService) {
         this.seriesModel = seriesModel;
+        this.personagemService = personagemService;
         this.httpService = new axios_1.HttpService();
     }
-    async getSeriesData() {
-        const url = `${constants_1.apikey.base_URL}series/1067?ts=1&apikey=${constants_1.apikey.publicKey}&hash=${constants_1.apikey.hash}`;
-        const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get(url));
-        const seriesData = data.data.results[0];
-        let series = {
-            titulo: '',
-            startYear: '',
-            endYear: '',
-            criadores: [{
-                    nome: '',
-                    cargo: '',
-                }],
-            personagens: [{
-                    nome: '',
-                    img: '',
-                }],
-            comics: [''],
+    async getCharacterData(e) {
+        const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${e.resourceURI}?ts=1&apikey=${constants_1.apikey.publicKey}&hash=${constants_1.apikey.hash}`));
+        const image = `${data.data.results[0].thumbnail.path}.${data.data.results[0].thumbnail.extension}`;
+        const description = data.data.results[0].description;
+        return {
+            image: image,
+            description: description
         };
-        series.titulo = seriesData.title;
-        series.startYear = seriesData.startYear;
-        series.endYear = seriesData.endYear;
-        series.criadores = seriesData.creators.items.map((e) => {
-            return {
-                nome: e.name,
-                cargo: e.role
+    }
+    async getSeriesData() {
+        try {
+            const url = `${constants_1.apikey.base_URL}series/1067?ts=1&apikey=${constants_1.apikey.publicKey}&hash=${constants_1.apikey.hash}`;
+            const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get(url));
+            const seriesData = data.data.results[0];
+            let series = {
+                titulo: '',
+                startYear: '',
+                endYear: '',
+                criadores: [{
+                        nome: '',
+                        cargo: '',
+                    }],
+                personagens: [{
+                        nome: '',
+                        img: '',
+                        description: ''
+                    }],
+                comics: [''],
             };
-        });
-        series.personagens = await Promise.all(seriesData.characters.items.map(async (e) => {
-            const img = await this.getCharacterImage(e);
-            return {
-                nome: e.name,
-                img: img
-            };
-        }));
-        series.comics = seriesData.comics.items.map((e) => e.name);
-        this.seriesModel.create(series);
+            series.titulo = seriesData.title;
+            series.startYear = seriesData.startYear;
+            series.endYear = seriesData.endYear;
+            series.criadores = seriesData.creators.items.map((e) => {
+                return {
+                    nome: e.name,
+                    cargo: e.role
+                };
+            });
+            series.personagens = await Promise.all(seriesData.characters.items.map(async (e) => {
+                const charData = await this.getCharacterData(e);
+                let char = {
+                    nome: e.name,
+                    img: charData.image,
+                    description: charData.description
+                };
+                const createdPersonagem = this.personagemService.create(char);
+                return createdPersonagem;
+            }));
+            series.comics = seriesData.comics.items.map((e) => e.name);
+            this.seriesModel.create(series);
+            return "Serie Cadastrada";
+        }
+        catch (erro) {
+            console.log(erro);
+        }
     }
     findAll() {
         return this.seriesModel.find().exec();
@@ -72,18 +93,16 @@ let SeriesService = class SeriesService {
         return this.seriesModel.find().select("criadores").exec();
     }
     findAllCharacters() {
-        return this.seriesModel.find().select("personagens").exec();
+        return this.personagemService.findAll();
     }
-    async getCharacterImage(e) {
-        const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${e.resourceURI}?ts=1&apikey=${constants_1.apikey.publicKey}&hash=${constants_1.apikey.hash}`));
-        const image = `${data.data.results[0].thumbnail.path}.${data.data.results[0].thumbnail.extension}`;
-        return image;
+    findCharacterById(id) {
+        return this.personagemService.findById(id);
     }
 };
 exports.SeriesService = SeriesService;
 exports.SeriesService = SeriesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)(series_schema_1.Series.name)),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __metadata("design:paramtypes", [mongoose_1.Model, personagem_service_1.PersonagemService])
 ], SeriesService);
 //# sourceMappingURL=series.service.js.map

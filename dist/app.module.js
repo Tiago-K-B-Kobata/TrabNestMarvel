@@ -13,6 +13,7 @@ const auth_module_1 = require("./auth/auth.module");
 const users_module_1 = require("./users/users.module");
 const logger_middleware_1 = require("./common/middleware/logger.middleware");
 const series_module_1 = require("./series/series.module");
+const personagem_module_1 = require("./personagem/personagem.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -23,7 +24,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forRoot('mongodb://0.0.0.0/series-project'), auth_module_1.AuthModule, users_module_1.UsersModule, series_module_1.SeriesModule],
+        imports: [mongoose_1.MongooseModule.forRoot('mongodb://0.0.0.0/series-project'), auth_module_1.AuthModule, users_module_1.UsersModule, series_module_1.SeriesModule, personagem_module_1.PersonagemModule],
         controllers: [],
         providers: [],
     })

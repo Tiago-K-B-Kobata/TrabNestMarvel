@@ -1,4 +1,5 @@
 import { IsEmail, IsInt, IsNotEmpty, IsNumber, IsString, Max, MaxLength, MinLength } from 'class-validator';
+import { Personagem } from 'src/personagem/schema/personagem.schema';
 
 
 export class CreateSeriesDto {
@@ -18,10 +19,7 @@ export class CreateSeriesDto {
     }[];
 
 
-    personagens: {
-        nome: string;
-        img: string;
-    }[];
+    personagens: Personagem[];
 
     comics: string[];
 }

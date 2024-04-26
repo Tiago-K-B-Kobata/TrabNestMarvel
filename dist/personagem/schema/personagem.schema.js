@@ -9,38 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SeriesSchema = exports.Series = void 0;
+exports.PersonagemSchema = exports.Personagem = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let Series = class Series {
+let Personagem = class Personagem {
 };
-exports.Series = Series;
+exports.Personagem = Personagem;
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], Series.prototype, "titulo", void 0);
+], Personagem.prototype, "nome", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Series.prototype, "startYear", void 0);
+], Personagem.prototype, "img", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Series.prototype, "endYear", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Array)
-], Series.prototype, "criadores", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true, type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Personagem' }] }),
-    __metadata("design:type", Array)
-], Series.prototype, "personagens", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Array)
-], Series.prototype, "comics", void 0);
-exports.Series = Series = __decorate([
+], Personagem.prototype, "description", void 0);
+exports.Personagem = Personagem = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
-], Series);
-exports.SeriesSchema = mongoose_1.SchemaFactory.createForClass(Series);
-//# sourceMappingURL=series.schema.js.map
+], Personagem);
+exports.PersonagemSchema = mongoose_1.SchemaFactory.createForClass(Personagem);
+//# sourceMappingURL=personagem.schema.js.map
