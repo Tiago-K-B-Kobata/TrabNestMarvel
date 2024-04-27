@@ -35,4 +35,9 @@ export class SeriesController {
         return this.seriesService.findCharacterById(id);
     }
 
+    @Get('comics/count')
+    findComicsAmount() {
+        return this.seriesService.findComicsAmount();
+    }
+
 }

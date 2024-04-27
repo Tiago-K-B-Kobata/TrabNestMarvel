@@ -21,10 +21,14 @@ const series_schema_1 = require("./schemas/series.schema");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const personagem_service_1 = require("../personagem/personagem.service");
+const comic_service_1 = require("../comic/comic.service");
+const creator_service_1 = require("../creator/creator.service");
 let SeriesService = class SeriesService {
-    constructor(seriesModel, personagemService) {
+    constructor(seriesModel, personagemService, comicService, creatorService) {
         this.seriesModel = seriesModel;
         this.personagemService = personagemService;
+        this.comicService = comicService;
+        this.creatorService = creatorService;
         this.httpService = new axios_1.HttpService();
     }
     async getCharacterData(e) {
@@ -34,6 +38,28 @@ let SeriesService = class SeriesService {
         return {
             image: image,
             description: description
+        };
+    }
+    async getComicData(e) {
+        const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${e.resourceURI}?ts=1&apikey=${constants_1.apikey.publicKey}&hash=${constants_1.apikey.hash}`));
+        const image = `${data.data.results[0].thumbnail.path}.${data.data.results[0].thumbnail.extension}`;
+        const description = data.data.results[0].description;
+        const title = data.data.results[0].title;
+        const issue = data.data.results[0].issueNumber;
+        return {
+            titulo: title,
+            numero: issue,
+            description: description,
+            capa: image,
+        };
+    }
+    async getCreatorData(e) {
+        const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get(`${e.resourceURI}?ts=1&apikey=${constants_1.apikey.publicKey}&hash=${constants_1.apikey.hash}`));
+        const name = data.data.results[0].fullName;
+        const comics = data.data.results[0].comics.items.map((e) => e.name);
+        return {
+            nome: name,
+            comics: comics
         };
     }
     async getSeriesData() {
@@ -59,12 +85,16 @@ let SeriesService = class SeriesService {
             series.titulo = seriesData.title;
             series.startYear = seriesData.startYear;
             series.endYear = seriesData.endYear;
-            series.criadores = seriesData.creators.items.map((e) => {
-                return {
-                    nome: e.name,
-                    cargo: e.role
+            series.criadores = await Promise.all(seriesData.creators.items.map(async (e) => {
+                const creatorData = await this.getCreatorData(e);
+                let creator = {
+                    nome: creatorData.nome,
+                    role: e.role,
+                    comics: creatorData.comics
                 };
-            });
+                const createdCreator = this.creatorService.create(creator);
+                return createdCreator;
+            }));
             series.personagens = await Promise.all(seriesData.characters.items.map(async (e) => {
                 const charData = await this.getCharacterData(e);
                 let char = {
@@ -75,7 +105,17 @@ let SeriesService = class SeriesService {
                 const createdPersonagem = this.personagemService.create(char);
                 return createdPersonagem;
             }));
-            series.comics = seriesData.comics.items.map((e) => e.name);
+            series.comics = await Promise.all(seriesData.comics.items.map(async (e) => {
+                const comicData = await this.getComicData(e);
+                let comi = {
+                    titulo: comicData.titulo,
+                    numero: comicData.numero,
+                    description: comicData.description,
+                    capa: comicData.capa
+                };
+                const createdComic = this.comicService.create(comi);
+                return createdComic;
+            }));
             this.seriesModel.create(series);
             return "Serie Cadastrada";
         }
@@ -86,14 +126,17 @@ let SeriesService = class SeriesService {
     findAll() {
         return this.seriesModel.find().exec();
     }
-    findAllComics() {
-        return this.seriesModel.find().select("comics").exec();
-    }
     findAllCreators() {
-        return this.seriesModel.find().select("criadores").exec();
+        return this.creatorService.findAll();
     }
     findAllCharacters() {
         return this.personagemService.findAll();
+    }
+    findAllComics() {
+        return this.comicService.findAll();
+    }
+    findComicsAmount() {
+        return this.comicService.findAmount();
     }
     findCharacterById(id) {
         return this.personagemService.findById(id);
@@ -103,6 +146,9 @@ exports.SeriesService = SeriesService;
 exports.SeriesService = SeriesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)(series_schema_1.Series.name)),
-    __metadata("design:paramtypes", [mongoose_1.Model, personagem_service_1.PersonagemService])
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        personagem_service_1.PersonagemService,
+        comic_service_1.ComicService,
+        creator_service_1.CreatorService])
 ], SeriesService);
 //# sourceMappingURL=series.service.js.map

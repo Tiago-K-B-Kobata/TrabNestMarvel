@@ -29,14 +29,14 @@ export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
     create(createUserDto: CreateUserDto): Promise<void>;
-    findOne(username: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("./schemas/user.schema").User> & import("./schemas/user.schema").User & {
+    findOne(username: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("src/users/schemas/user.schema").User> & import("src/users/schemas/user.schema").User & {
         _id: import("mongoose").Types.ObjectId;
-    }, import("mongoose").Document<unknown, {}, import("./schemas/user.schema").User> & import("./schemas/user.schema").User & {
+    }, import("mongoose").Document<unknown, {}, import("src/users/schemas/user.schema").User> & import("src/users/schemas/user.schema").User & {
         _id: import("mongoose").Types.ObjectId;
-    }, {}, import("./schemas/user.schema").User, "findOne">;
-    findAll(): import("mongoose").Query<(import("mongoose").Document<unknown, {}, import("./schemas/user.schema").User> & import("./schemas/user.schema").User & {
+    }, {}, import("src/users/schemas/user.schema").User, "findOne">;
+    findAll(): import("mongoose").Query<(import("mongoose").Document<unknown, {}, import("src/users/schemas/user.schema").User> & import("src/users/schemas/user.schema").User & {
         _id: import("mongoose").Types.ObjectId;
-    })[], import("mongoose").Document<unknown, {}, import("./schemas/user.schema").User> & import("./schemas/user.schema").User & {
+    })[], import("mongoose").Document<unknown, {}, import("src/users/schemas/user.schema").User> & import("src/users/schemas/user.schema").User & {
         _id: import("mongoose").Types.ObjectId;
-    }, {}, import("./schemas/user.schema").User, "find">;
+    }, {}, import("src/users/schemas/user.schema").User, "find">;
 }

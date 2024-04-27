@@ -5,9 +5,17 @@ import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { SeriesModule } from './series/series.module';
 import { PersonagemModule } from './personagem/personagem.module';
+import { ComicModule } from './comic/comic.module';
+import { CreatorModule } from './creator/creator.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://0.0.0.0/series-project'), AuthModule, UsersModule, SeriesModule, PersonagemModule],
+  imports: [MongooseModule.forRoot('mongodb://0.0.0.0/series-project'),
+    AuthModule,
+    UsersModule,
+    SeriesModule,
+    PersonagemModule,
+    ComicModule,
+    CreatorModule],
   controllers: [],
   providers: [],
 })

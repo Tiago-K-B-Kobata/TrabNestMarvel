@@ -8,10 +8,18 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreatePersonagemDto } from 'src/personagem/dto/create-personagem.dto';
 import { PersonagemService } from 'src/personagem/personagem.service';
+import { CreateComicDto } from 'src/comic/dto/create-comic.dto';
+import { ComicService } from 'src/comic/comic.service';
+import { CreateCreatorDto } from 'src/creator/dto/create-creator.dto';
+import { CreatorService } from 'src/creator/creator.service';
 
 @Injectable()
 export class SeriesService {
-    constructor(@InjectModel(Series.name) private seriesModel: Model<Series>, private readonly personagemService: PersonagemService) { }
+    constructor(@InjectModel(Series.name) private seriesModel: Model<Series>,
+        private readonly personagemService: PersonagemService,
+        private readonly comicService: ComicService,
+        private readonly creatorService: CreatorService
+    ) { }
 
     httpService = new HttpService();
 
@@ -22,6 +30,30 @@ export class SeriesService {
         return {
             image: image,
             description: description
+        };
+    }
+
+    async getComicData(e) {
+        const { data } = await firstValueFrom(this.httpService.get(`${e.resourceURI}?ts=1&apikey=${apikey.publicKey}&hash=${apikey.hash}`));
+        const image = `${data.data.results[0].thumbnail.path}.${data.data.results[0].thumbnail.extension}`;
+        const description = data.data.results[0].description;
+        const title = data.data.results[0].title;
+        const issue = data.data.results[0].issueNumber;
+        return {
+            titulo: title,
+            numero: issue,
+            description: description,
+            capa: image,
+        };
+    }
+
+    async getCreatorData(e) {
+        const { data } = await firstValueFrom(this.httpService.get(`${e.resourceURI}?ts=1&apikey=${apikey.publicKey}&hash=${apikey.hash}`));
+        const name = data.data.results[0].fullName;
+        const comics = data.data.results[0].comics.items.map((e) => e.name);
+        return {
+            nome: name,
+            comics: comics
         };
     }
 
@@ -60,13 +92,17 @@ export class SeriesService {
             series.titulo = seriesData.title;
             series.startYear = seriesData.startYear;
             series.endYear = seriesData.endYear;
-            series.criadores = seriesData.creators.items.map((e) => {
-                return {
-                    nome: e.name,
-                    cargo: e.role
+            series.criadores = await Promise.all(seriesData.creators.items.map(async (e) => {
+
+                const creatorData = await this.getCreatorData(e);
+                let creator: CreateCreatorDto = {
+                    nome: creatorData.nome,
+                    role: e.role,
+                    comics: creatorData.comics
                 };
-            }
-            );
+                const createdCreator = this.creatorService.create(creator);
+                return createdCreator;
+            }));
 
             series.personagens = await Promise.all(seriesData.characters.items.map(async (e) => {
 
@@ -80,7 +116,18 @@ export class SeriesService {
                 return createdPersonagem;
             }));
 
-            series.comics = seriesData.comics.items.map((e) => e.name);
+            series.comics = await Promise.all(seriesData.comics.items.map(async (e) => {
+
+                const comicData = await this.getComicData(e);
+                let comi: CreateComicDto = {
+                    titulo: comicData.titulo,
+                    numero: comicData.numero,
+                    description: comicData.description,
+                    capa: comicData.capa
+                };
+                const createdComic = this.comicService.create(comi);
+                return createdComic;
+            }));
 
             this.seriesModel.create(series);
             return "Serie Cadastrada";
@@ -93,16 +140,20 @@ export class SeriesService {
         return this.seriesModel.find().exec();
     }
 
-    findAllComics() {
-        return this.seriesModel.find().select("comics").exec();
-    }
-
     findAllCreators() {
-        return this.seriesModel.find().select("criadores").exec();
+        return this.creatorService.findAll();
     }
 
     findAllCharacters() {
         return this.personagemService.findAll();
+    }
+
+    findAllComics() {
+        return this.comicService.findAll();
+    }
+
+    findComicsAmount() {
+        return this.comicService.findAmount();
     }
 
     findCharacterById(id: string) {

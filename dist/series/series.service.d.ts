@@ -26,31 +26,46 @@ import { HttpService } from '@nestjs/axios';
 import { Series } from './schemas/series.schema';
 import { Model } from 'mongoose';
 import { PersonagemService } from 'src/personagem/personagem.service';
+import { ComicService } from 'src/comic/comic.service';
+import { CreatorService } from 'src/creator/creator.service';
 export declare class SeriesService {
     private seriesModel;
     private readonly personagemService;
-    constructor(seriesModel: Model<Series>, personagemService: PersonagemService);
+    private readonly comicService;
+    private readonly creatorService;
+    constructor(seriesModel: Model<Series>, personagemService: PersonagemService, comicService: ComicService, creatorService: CreatorService);
     httpService: HttpService;
     getCharacterData(e: any): Promise<{
         image: string;
         description: any;
     }>;
+    getComicData(e: any): Promise<{
+        titulo: any;
+        numero: any;
+        description: any;
+        capa: string;
+    }>;
+    getCreatorData(e: any): Promise<{
+        nome: any;
+        comics: any;
+    }>;
     getSeriesData(): Promise<string>;
     findAll(): Promise<(import("mongoose").Document<unknown, {}, Series> & Series & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findAllComics(): Promise<(import("mongoose").Document<unknown, {}, Series> & Series & {
+    findAllCreators(): Promise<(import("mongoose").Document<unknown, {}, import("src/creator/schema/creator.schema").Creator> & import("src/creator/schema/creator.schema").Creator & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findAllCreators(): Promise<(import("mongoose").Document<unknown, {}, Series> & Series & {
+    findAllCharacters(): Promise<(import("mongoose").Document<unknown, {}, import("src/personagem/schema/personagem.schema").Personagem> & import("src/personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findAllCharacters(): Promise<(import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+    findAllComics(): Promise<(import("mongoose").Document<unknown, {}, import("src/comic/schema/comic.schema").Comic> & import("src/comic/schema/comic.schema").Comic & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findCharacterById(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+    findComicsAmount(): Promise<number>;
+    findCharacterById(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("src/personagem/schema/personagem.schema").Personagem> & import("src/personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
-    }, import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+    }, import("mongoose").Document<unknown, {}, import("src/personagem/schema/personagem.schema").Personagem> & import("src/personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
-    }, {}, import("../personagem/schema/personagem.schema").Personagem, "findOne">;
+    }, {}, import("src/personagem/schema/personagem.schema").Personagem, "findOne">;
 }

@@ -23,18 +23,17 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import mongoose, { HydratedDocument } from 'mongoose';
+import { Comic } from 'src/comic/schema/comic.schema';
+import { Creator } from 'src/creator/schema/creator.schema';
 import { Personagem } from 'src/personagem/schema/personagem.schema';
 export type SeriesDocument = HydratedDocument<Series>;
 export declare class Series {
     titulo: string;
     startYear: string;
     endYear: string;
-    criadores: {
-        nome: string;
-        cargo: string;
-    }[];
+    criadores: Creator[];
     personagens: Personagem[];
-    comics: string[];
+    comics: Comic[];
 }
 export declare const SeriesSchema: mongoose.Schema<Series, mongoose.Model<Series, any, any, any, mongoose.Document<unknown, any, Series> & Series & {
     _id: mongoose.Types.ObjectId;

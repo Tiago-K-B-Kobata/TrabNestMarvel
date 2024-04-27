@@ -28,7 +28,7 @@ __decorate([
     __metadata("design:type", String)
 ], Series.prototype, "endYear", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true, type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Creator' }] }),
     __metadata("design:type", Array)
 ], Series.prototype, "criadores", void 0);
 __decorate([
@@ -36,7 +36,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Series.prototype, "personagens", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true, type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Comic' }] }),
     __metadata("design:type", Array)
 ], Series.prototype, "comics", void 0);
 exports.Series = Series = __decorate([

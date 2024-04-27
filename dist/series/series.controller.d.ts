@@ -28,21 +28,22 @@ export declare class SeriesController {
     private readonly seriesService;
     constructor(seriesService: SeriesService);
     create(): Promise<string>;
-    findAll(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/series.schema").Series> & import("./schemas/series.schema").Series & {
+    findAll(): Promise<(import("mongoose").Document<unknown, {}, import("src/series/schemas/series.schema").Series> & import("src/series/schemas/series.schema").Series & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findComics(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/series.schema").Series> & import("./schemas/series.schema").Series & {
+    findComics(): Promise<(import("mongoose").Document<unknown, {}, import("src/comic/schema/comic.schema").Comic> & import("src/comic/schema/comic.schema").Comic & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findCreators(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/series.schema").Series> & import("./schemas/series.schema").Series & {
+    findCreators(): Promise<(import("mongoose").Document<unknown, {}, import("src/creator/schema/creator.schema").Creator> & import("src/creator/schema/creator.schema").Creator & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findCharacters(): Promise<(import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+    findCharacters(): Promise<(import("mongoose").Document<unknown, {}, import("src/personagem/schema/personagem.schema").Personagem> & import("src/personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findCharacter(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+    findCharacter(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("src/personagem/schema/personagem.schema").Personagem> & import("src/personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
-    }, import("mongoose").Document<unknown, {}, import("../personagem/schema/personagem.schema").Personagem> & import("../personagem/schema/personagem.schema").Personagem & {
+    }, import("mongoose").Document<unknown, {}, import("src/personagem/schema/personagem.schema").Personagem> & import("src/personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
-    }, {}, import("../personagem/schema/personagem.schema").Personagem, "findOne">;
+    }, {}, import("src/personagem/schema/personagem.schema").Personagem, "findOne">;
+    findComicsAmount(): Promise<number>;
 }

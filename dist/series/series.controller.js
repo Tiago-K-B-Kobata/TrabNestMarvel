@@ -37,6 +37,9 @@ let SeriesController = class SeriesController {
     findCharacter(id) {
         return this.seriesService.findCharacterById(id);
     }
+    findComicsAmount() {
+        return this.seriesService.findComicsAmount();
+    }
 };
 exports.SeriesController = SeriesController;
 __decorate([
@@ -76,6 +79,12 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], SeriesController.prototype, "findCharacter", null);
+__decorate([
+    (0, common_1.Get)('comics/count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], SeriesController.prototype, "findComicsAmount", null);
 exports.SeriesController = SeriesController = __decorate([
     (0, common_1.Controller)('series'),
     __metadata("design:paramtypes", [series_service_1.SeriesService])

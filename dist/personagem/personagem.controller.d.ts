@@ -30,7 +30,7 @@ export declare class PersonagemController {
     private readonly personagemService;
     constructor(personagemService: PersonagemService);
     create(createPersonagemDto: CreatePersonagemDto): Promise<import("mongoose").Types.ObjectId>;
-    findAll(): Promise<(import("mongoose").Document<unknown, {}, import("./schema/personagem.schema").Personagem> & import("./schema/personagem.schema").Personagem & {
+    findAll(): Promise<(import("mongoose").Document<unknown, {}, import("src/personagem/schema/personagem.schema").Personagem> & import("src/personagem/schema/personagem.schema").Personagem & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
     findOne(id: string): void;
