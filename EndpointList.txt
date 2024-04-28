@@ -2,8 +2,11 @@ run on localhost:3000
 
 Endpoints:
 
+Run firsto to retrieve series data
 POST /series
 Triggers data retrieval and processing for a series.
+
+
 GET /series
 Returns all series.
 GET /series/comics
