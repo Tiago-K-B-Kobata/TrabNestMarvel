@@ -1,0 +1,18 @@
+run on localhost:3000
+
+Endpoints:
+
+POST /series
+Triggers data retrieval and processing for a series.
+GET /series
+Returns all series.
+GET /series/comics
+Returns all comics.
+GET /series/creators
+Returns all creators.
+GET /series/characters
+Returns all characters.
+GET /series/characters/:id
+Returns a specific character by ID.
+GET /series/comics/count
+Returns the count of all comics.
